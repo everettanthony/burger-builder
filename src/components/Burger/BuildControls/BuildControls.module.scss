@@ -1,0 +1,48 @@
+.buildControls {
+    align-items: stretch;
+    background-color: #ff3f09;
+    border-bottom: 8px solid #e23708;
+    border-top: 8px solid #e23708;
+    box-shadow: 0 2px 1px #ccc;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1.2rem;
+    justify-content: center;
+    margin: 20px auto 0;
+    padding: 10px 0;
+    width: 100%;
+
+    .container {
+        align-items: center;
+        background: #ee3806;
+        border: 3px solid #e23708;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 5px;
+        min-width: 285px;
+        padding: 20px 0;
+    }
+
+    .price {
+        font-size: 3rem;
+        font-weight: 800;
+    }
+
+    .orderButton {
+        background-color: #ffe108;
+        border: none;
+        color: #e23708;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin: 10px 0;
+        outline: none;
+        padding: 10px 15px;
+
+        &:hover {
+            background-color: #fce95e;
+        }
+    }
+}
