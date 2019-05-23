@@ -2,14 +2,14 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin: 5px 0;
+    margin: 2px 0;
 
     button {
         border: 1px solid #ffc403;
         cursor: pointer;
         display: block;
         outline: none;
-        padding: 6px 12px;
+        padding: 4px 6px;
 
         &:disabled {
             opacity: .3;

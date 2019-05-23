@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 88px);
+    margin-top: auto;
+}

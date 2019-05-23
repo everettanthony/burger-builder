@@ -1,7 +1,6 @@
 .buildControls {
     align-items: stretch;
     background-color: #ff3f09;
-    border-bottom: 8px solid #e23708;
     border-top: 8px solid #e23708;
     box-shadow: 0 2px 1px #ccc;
     color: #fff;
@@ -9,7 +8,6 @@
     flex-wrap: wrap;
     font-size: 1.2rem;
     justify-content: center;
-    margin: 20px auto 0;
     padding: 10px 0;
     width: 100%;
 
@@ -21,8 +19,8 @@
         flex-direction: column;
         justify-content: center;
         margin: 5px;
-        min-width: 285px;
-        padding: 20px 0;
+        min-width: 275px;
+        padding: 10px 0;
     }
 
     .price {

@@ -1,0 +1,21 @@
+.toolbar {
+    height: 80px;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    .container {
+        align-items: center;
+        background-color: #ff3f09;
+        border-bottom: 8px solid #e23708;
+        color: #fff;
+        display: flex;
+        height: 100%;
+        padding: 0 20px;
+    }
+
+    .mainNav {
+        margin-left: auto;
+    }
+}

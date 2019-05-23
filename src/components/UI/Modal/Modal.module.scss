@@ -16,6 +16,14 @@
         margin: 0 0 16px;
     }
 
+    .close {
+        cursor: pointer;
+        font-size: 1.6rem;
+        position: absolute;
+        right: 4px;
+        top: 4px;
+    }
+
     @media (min-width: 600px) {
         left: calc(50% - 250px);
         width: 500px;

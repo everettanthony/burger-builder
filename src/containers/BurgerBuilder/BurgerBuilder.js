@@ -79,6 +79,10 @@ class BurgerBuilder extends Component {
     checkoutCancelHandler = () => {
         this.setState({checkingOut: false});
     }
+
+    checkoutContinueHandler = () => {
+        console.log('You have continued.');
+    }
     
     render(props) {
         const disabledInfo = { ...this.state.ingredients };
@@ -89,7 +93,11 @@ class BurgerBuilder extends Component {
         return (
             <Aux>
                 <Modal show={this.state.checkingOut} modalClosed={this.checkoutCancelHandler}>
-                    <OrderSummary ingredients={this.state.ingredients} />
+                    <OrderSummary 
+                        price={this.state.totalPrice}
+                        checkoutCanceled={this.checkoutCancelHandler}
+                        checkoutContinue={this.checkoutContinueHandler}
+                        ingredients={this.state.ingredients} />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls 
