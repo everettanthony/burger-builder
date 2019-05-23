@@ -3,6 +3,8 @@ import './App.scss';
 import Layout from './components/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 
+document.title = 'Burger Builder App';
+
 function App() {
   return (
     <div>
