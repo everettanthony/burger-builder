@@ -44,5 +44,14 @@
         &:hover {
             background-color: #fce95e;
         }
+
+        &:disabled {
+            opacity: .3;
+            cursor: default;  
+        }
+
+        &:hover:disabled {
+            cursor: not-allowed;
+        }
     }
 }

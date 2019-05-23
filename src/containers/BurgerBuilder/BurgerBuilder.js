@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
     lettuce: 0.5,
@@ -24,7 +26,19 @@ class BurgerBuilder extends Component {
             cheese: 0,
             meat: 0
         },
-        totalPrice: 2
+        totalPrice: 2,
+        checkOutReady: false,
+        checkingOut: false
+    }
+
+    updateCheckoutState = (ingredients) => {
+        const sum = Object.keys(ingredients).map(igKey => {
+            return ingredients[igKey];
+        }).reduce((sum, el) => {
+            return sum + el;
+        }, 0);
+
+        this.setState({checkOutReady: sum > 0})
     }
 
     addIngredientHandler = (type) => {
@@ -37,6 +51,7 @@ class BurgerBuilder extends Component {
         const priceAddition = INGREDIENT_PRICES[type];
         const newPrice = this.state.totalPrice + priceAddition;
         this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
+        this.updateCheckoutState(updatedIngredients);
     }
 
     removeIngredientHandler = (type) => {
@@ -54,6 +69,15 @@ class BurgerBuilder extends Component {
         const priceDeduction = INGREDIENT_PRICES[type];
         const newPrice = this.state.totalPrice - priceDeduction;
         this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
+        this.updateCheckoutState(updatedIngredients);
+    }
+
+    checkoutHandler = () => {
+        this.setState({checkingOut: true});
+    }
+
+    checkoutCancelHandler = () => {
+        this.setState({checkingOut: false});
     }
     
     render(props) {
@@ -64,12 +88,17 @@ class BurgerBuilder extends Component {
 
         return (
             <Aux>
+                <Modal show={this.state.checkingOut} modalClosed={this.checkoutCancelHandler}>
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls 
                     price={this.state.totalPrice}
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemoved={this.removeIngredientHandler}
                     disabled={disabledInfo}
+                    checkout={this.state.checkOutReady}
+                    ordering={this.checkoutHandler}
                 />
             </Aux>
         );
