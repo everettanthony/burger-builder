@@ -12,10 +12,26 @@
         color: #fff;
         display: flex;
         height: 100%;
+        justify-content: space-between;
         padding: 0 20px;
     }
 
     .mainNav {
-        margin-left: auto;
+        height: 100%;
+
+        @media (max-width: 1200px) {
+            display: none;
+        }
+    }
+
+    .logo {
+        align-items: center;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        left: 50%;
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%);
     }
 }

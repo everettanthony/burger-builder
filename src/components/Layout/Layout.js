@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Aux from '../../hoc/Auxiliary';
 import styles from './Layout.module.scss';
 import Toolbar from '../Navigation/Toolbar/Toolbar';
+import Drawer from '../Navigation/Drawer/Drawer';
 
-const layout = ( props ) => (
-    <Aux>
-        <div className={styles.container}>
-            <Toolbar />
-            <main  className={styles.main}>
-                {props.children}
-            </main>
-        </div>
-    </Aux>
-);
+class Layout extends Component {
+    state = {
+        drawerOpen: false
+    }
 
-export default layout;
+    drawerCloseHandler = () => {
+        this.setState({ drawerOpen: false });
+    }
+
+    sideDrawerToggleHandler = () => {
+        this.setState( ( prevState ) => {
+            return { drawerOpen: !prevState.drawerOpen };
+        } );
+    }
+
+    render() {
+        return (
+            <Aux>
+                <div className={styles.container}>
+                    <Toolbar drawerToggleClicked={this.sideDrawerToggleHandler} />
+                    <Drawer 
+                        open={this.state.drawerOpen} 
+                        closed={this.drawerCloseHandler} />
+                    <main  className={styles.main}>
+                        {this.props.children}
+                    </main>
+                </div>
+            </Aux>
+        );
+    };
+};
+
+export default Layout;

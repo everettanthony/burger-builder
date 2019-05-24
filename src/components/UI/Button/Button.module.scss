@@ -23,3 +23,20 @@
         background-color: #f75a2f;
     }
 }
+
+.icon {
+    background: none;
+    border: none;
+    color: #fff;
+    margin: 0;
+    padding: 4px 6px;
+
+    i {
+        font-size: 2.5rem;
+    }
+
+    &:hover {
+        background-color: #e23708;
+    }
+}
+
