@@ -3,7 +3,7 @@ import styles from './Drawer.module.scss';
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import Overlay from '../../UI/Overlay/Overlay';
-import Aux from '../../../hoc/Auxiliary';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 const Drawer = (props) => {
     let classes = [styles.drawer, styles.close];
