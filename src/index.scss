@@ -1,5 +1,6 @@
 $primary-font: 'Open Sans', sans-serif;
 $secondary-font: 'Lora', serif;
+$primary-color: #ff3f09;
 
 body {
   margin: 0;
@@ -7,6 +8,11 @@ body {
   font-family: $primary-font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  color: $primary-color;
+  margin: 0 0 20px;
 }
 
 p {
