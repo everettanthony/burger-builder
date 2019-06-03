@@ -32,23 +32,23 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://burger-builder-6498e.firebaseio.com/ingredients.json')
+        axios.get('https://burger-builder-6498e.firebaseio.com/ingredients.json', 
+            )
             .then(rsp => {
-                console.log('INGREDIENTS: ', rsp);
                 this.setState({ ingredients: rsp.data });
             })
             .catch(err => {
-                console.log('ERROR', err);
                 this.setState({ error: true });
             });
     }
 
     updateCheckoutState = (ingredients) => {
-        const sum = Object.keys(ingredients).map(igKey => {
-            return ingredients[igKey];
-        }).reduce((sum, el) => {
-            return sum + el;
-        }, 0);
+        const sum = Object.keys(ingredients)
+            .map(igKey => {
+                return ingredients[igKey];
+            }).reduce((sum, el) => {
+                return sum + el;
+            }, 0);
 
         this.setState({checkOutReady: sum > 0})
     }
@@ -62,7 +62,7 @@ class BurgerBuilder extends Component {
         updatedIngredients[type] = updatedCount;
         const priceAddition = INGREDIENT_PRICES[type];
         const newPrice = this.state.totalPrice + priceAddition;
-        this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
+        this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
         this.updateCheckoutState(updatedIngredients);
     }
 
@@ -80,7 +80,7 @@ class BurgerBuilder extends Component {
         updatedIngredients[type] = updatedCount;
         const priceDeduction = INGREDIENT_PRICES[type];
         const newPrice = this.state.totalPrice - priceDeduction;
-        this.setState({ingredients: updatedIngredients, totalPrice: newPrice});
+        this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
         this.updateCheckoutState(updatedIngredients);
     }
 
@@ -93,40 +93,12 @@ class BurgerBuilder extends Component {
     }
 
     checkoutContinueHandler = () => {
-        // console.log('You have continued.');
-        // this.setState( { loading: true } );
-        // const order = {
-        //     ingredients: this.state.ingredients,
-        //     price: this.state.totalPrice,
-        //     customer: {
-        //         fname: 'Tony',
-        //         lname: 'Bradshaw',
-        //         address: {
-        //             street: '123 Sesame Street',
-        //             city: 'Bronx',
-        //             state: 'New York',
-        //             zip: '76112',
-        //             country: 'USA'
-        //         },
-        //         phone: '817-867-5309',
-        //         email: 'tonybradshaw@gmail.com'
-        //     },
-        //     deliveryMethod: 'fastest'
-        // };
-
-        // axios.post('/orders.json', order).then(rsp => {
-        //     console.log( 'ORDER: ', rsp );
-        //     this.setState({ loading: false, checkingOut: false });
-        // }).catch(err => {
-        //     console.log( 'ERROR: ', err);
-        //     this.setState({ loading: false, checkingOut: false });
-        // });
-
         const params = [];
         for (let i in this.state.ingredients) {
             params.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
 
+        params.push('price=' + this.state.totalPrice.toFixed(2));
         const queryString = params.join('&');
 
         this.props.history.push({

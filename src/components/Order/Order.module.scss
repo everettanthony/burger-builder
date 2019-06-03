@@ -1,0 +1,30 @@
+.order {
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+
+    @media (min-width: 600px) {
+        width: 900px;
+    }
+
+    .item {
+        &:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    }
+
+    label {
+        font-weight: 700;
+    }
+
+    .ingredient {
+        border: 1px solid #ccc;
+        display: inline-block;
+        font-size: 14px;
+        margin: 0 8px;
+        padding: 5px;
+        text-transform: capitalize;
+    }
+}
