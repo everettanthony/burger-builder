@@ -19,7 +19,7 @@ export class Orders extends Component {
                         id: key
                     });
                 }
-
+                
                 this.setState({loading: false, orders: fetchedOrders});
             })
             .catch(err => {
