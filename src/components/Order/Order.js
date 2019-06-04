@@ -26,6 +26,37 @@ const Order = (props) => {
             <div className={styles.item}>
                 <label>Price: </label> ${props.price}
             </div>
+            <div className={[styles.item, styles.customer].join(' ')}>
+                <label>Customer Information: </label>
+                <div className={styles.customerData}>
+                    <div>
+                        <label>First Name</label>
+                        {props.customer.fname}
+                    </div>
+                    <div>
+                        <label>Last Name</label>
+                        {props.customer.lname}
+                    </div>
+                    <div>
+                        <label>Email</label>
+                        {props.customer.email}
+                    </div>
+                    <div>
+                        <label>Phone</label>
+                        {props.customer.phone}
+                    </div>
+                    <div>
+                        <label>Address</label>
+                        <div>{props.customer.street}</div>
+                        {props.customer.street2 ? <div>{props.customer.street2}</div> : null}
+                        <div>{props.customer.city}, {props.customer.state} {props.customer.zip}</div>
+                    </div>
+                    <div>
+                        <label>Delivery Method</label>
+                        {props.customer.deliveryMethod}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

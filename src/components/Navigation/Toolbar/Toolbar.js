@@ -14,7 +14,7 @@ const Toolbar = (props) => (
             </div>
             <div className={styles.logo}><Logo /></div>
             <nav className={styles.mainNav}>
-                <NavigationItems />
+                <NavigationItems activeStyle={styles.active} />
             </nav>
         </div>
     </header>

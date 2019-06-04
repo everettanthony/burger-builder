@@ -20,7 +20,7 @@ const Drawer = (props) => {
                     <div className={styles.logo}><Logo /></div>
                 </div>
                 <nav className={styles.navigation}>
-                    <div className={styles.navigationItems}><NavigationItems /></div>
+                    <div className={styles.navigationItems}><NavigationItems activeStyle={styles.active} /></div>
                 </nav>
             </div>
             <Overlay show={props.open} clicked={props.closed} />

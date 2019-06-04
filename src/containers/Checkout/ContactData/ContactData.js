@@ -3,19 +3,21 @@ import axios from '../../../axios-orders';
 import styles from './ContactData.module.scss';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import Input from '../../../components/UI/Input/Input';
 
 export class ContactData extends Component {
     state = {
-        fname: '',
-        lname: '',
-        email: '',
-        phone: '',
-        address: {
-            street: '',
-            street2: '',
-            city: '',
-            state: '',
-            zip: ''
+        orderForm: {
+            fname: 'Tony',
+            lname: 'Bradshaw',
+            street: '123 Sesame Street',
+            city: 'Bronx',
+            state: 'New York',
+            zip: '76112',
+            country: 'USA',
+            phone: '817-867-5309',
+            email: 'tonybradshaw@gmail.com',
+            deliveryMethod: 'fastest'
         },
         loading: false
     };
@@ -23,24 +25,16 @@ export class ContactData extends Component {
     orderHandler = (evt) => {
         evt.preventDefault();
         this.setState( { loading: true } );
+        const formData = {};
+
+        for (let val in this.state.orderForm) {
+            formData[val] = this.state.orderForm[val]
+        }
 
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            customer: {
-                fname: 'Tony',
-                lname: 'Bradshaw',
-                address: {
-                    street: '123 Sesame Street',
-                    city: 'Bronx',
-                    state: 'New York',
-                    zip: '76112',
-                    country: 'USA'
-                },
-                phone: '817-867-5309',
-                email: 'tonybradshaw@gmail.com'
-            },
-            deliveryMethod: 'fastest'
+            orderData: formData
         };
 
         axios.post('/orders.json', order)
@@ -53,58 +47,55 @@ export class ContactData extends Component {
         });
     }
 
+    inputChangeHandler = (evt) => {
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        }
+
+        updatedOrderForm[evt.target.name] = evt.target.value;
+        this.setState({ orderForm: updatedOrderForm });
+    }
+
     render() {
         let form = (
-            <form className={styles.contactForm}>
+            <form className={styles.contactForm} onSubmit={this.orderHandler}>
                 <div className={styles.formRow}>
-                    <div className={styles.formControl}>
-                        <label>First Name</label>
-                        <input type="text" name="fname" />
-                    </div>
-                    <div className={styles.formControl}>
-                        <label>Last Name</label>
-                        <input type="text" name="lname" />
-                    </div>
+                    <Input elementtype="input" type="text" name="fname" label="First Name" onChange={this.inputChangeHandler} />
+                    <Input elementtype="input" type="text" name="lname" label="Last Name" onChange={this.inputChangeHandler} />
                 </div>
                 <div className={styles.formRow}>
-                    <div className={styles.formControl}>
-                        <label>Email</label>
-                        <input type="text" name="email" />
-                    </div>
-                    <div className={styles.formControl}>
-                        <label>Phone</label>
-                        <input type="text" name="phone" />
-                    </div>
+                    <Input elementtype="input" type="text" name="email" label="Email" onChange={this.inputChangeHandler} />
+                    <Input elementtype="input" type="text" name="phone" label="Phone" onChange={this.inputChangeHandler} />
                 </div>
                 <div className={styles.formRow}>
-                    <div className={styles.formControl}>
-                        <label>Street</label>
-                        <input type="text" name="street" />
-                    </div>
-                    <div className={styles.formControl}>
-                        <label>Street 2</label>
-                        <input type="text" name="street2" />
-                    </div>
+                    <Input elementtype="input" type="text" name="street" label="Street" onChange={this.inputChangeHandler} />
+                    <Input elementtype="input" type="text" name="street2" label="Street2" onChange={this.inputChangeHandler} />
                 </div>
                 <div className={styles.formRow}>
-                    <div className={styles.formControl}>
-                        <label>City</label>
-                        <input type="text" name="city" />
-                    </div>
-                    <div className={styles.formControl}>
-                        <label>State</label>
-                        <input type="text" name="state" />
-                    </div>
-                    <div className={styles.formControl}>
-                        <label>Zip Code</label>
-                        <input type="text" name="zip" />
-                    </div>
+                    <Input elementtype="input" type="text" name="city" label="City" onChange={this.inputChangeHandler} />
+                    <Input elementtype="input" type="text" name="state" label="State" onChange={this.inputChangeHandler} />
+                    <Input elementtype="input" type="text" name="zip" label="Zip" onChange={this.inputChangeHandler} />
+                </div>
+                <div className={styles.formRow}>
+                    <Input elementtype="select" name="deliveryMethod" label="Delivery Method" onChange={this.inputChangeHandler}>
+                        <option value="slowest">Slowest</option>
+                        <option value="fastest">Fastest</option>
+                        <option value="expensive">Expensive</option> 
+                    </Input>
                 </div>
                 <div className={styles.formRow}>
                     <div className={[styles.formControl,styles.btnControl].join(' ')}>
-                        <Button btnType="success" clicked={this.orderHandler}>ORDER</Button>
+                        <Button btnType="success">PLACE ORDER</Button>
                     </div>
                 </div>
+                {/* Input with placeholder text */}
+                {/* <Input inputtype="input" 
+                        type="text" 
+                        name="fname" 
+                        label="First Name" 
+                        placeholder="First Name" 
+                        onFocus={(e) => e.target.placeholder = ""} 
+                        onBlur={(e) => e.target.placeholder = "First Name"}/> */}
             </form>
         );
 

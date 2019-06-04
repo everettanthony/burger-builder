@@ -23,7 +23,7 @@ const orderSummary = (props) => {
                 <h3>Continue to Checkout?</h3>
                 <div className={styles.btn}>
                     <Button btnType="cancel" clicked={props.checkoutCanceled}>Cancel</Button>
-                    <Button clicked={props.checkoutContinue}>Continue</Button>
+                    <Button btnType="success" clicked={props.checkoutContinue}>Continue</Button>
                     {/* <button className={styles.btnCancel} onClick={props.cancel}>Cancel</button>
                     <button>Continue</button> */}
                 </div>
