@@ -24,6 +24,11 @@
         &:not(select):focus {
             background-color: #edffe4;
         }
+
+        &.error {
+            background-color: #ffe9f2;
+            border: 1px solid #ec2578;
+        }
     }
 
     &.btnControl {

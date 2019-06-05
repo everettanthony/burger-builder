@@ -15,7 +15,7 @@ const burger = (props) => {
         }, []); // Use .reduce() to flatten the burgerIngredients array, which contains inner arrays
 
     if (burgerIngredients.length === 0) {
-        burgerIngredients = <p className={styles.message}>Your burger is boring without any ingredients.</p>
+        burgerIngredients = <p className={styles.message}>Ready to build your burger.</p>
     }    
 
     return (
