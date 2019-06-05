@@ -9,84 +9,156 @@ export class ContactData extends Component {
     state = {
         orderForm: {
             fname: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'First Name',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 1
             },
             lname: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'Last Name',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 1
             },
             email: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'Email',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 2
             },
             phone: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'Phone',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: false
                 },
                 valid: true,
-                touched: false
+                touched: false,
+                group: 2
             },
             street: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'Street',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 3
             },
             street2: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'Street 2',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: false
                 },
                 valid: true,
-                touched: false
+                touched: false,
+                group: 3
             },   
             city: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'City',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 4
             },           
             state: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'State',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 4
             },
             zip: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    label: 'Zip Code',
+                    placeholder: ''
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 4
             },
             deliveryMethod: {
+                elementType: 'select',
+                elementConfig: {
+                    label: 'Delivery Method',
+                    options: [
+                        {value: 'fastest', displayValue: 'Fastest'},
+                        {value: 'cheapest', displayValue: 'Cheapest'}
+                    ]
+                },
                 value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: false
+                touched: false,
+                group: 5
             }
         },
         formIsValid: false,
@@ -118,25 +190,24 @@ export class ContactData extends Component {
         });
     }
 
-    inputChangeHandler = (evt) => {
-        let name = evt.target.name;
-
+    inputChangedHandler = (evt, inputIdentifier) => {
         const updatedOrderForm = {
             ...this.state.orderForm
-        }
+        };
+        const updatedFormElement = { 
+            ...updatedOrderForm[inputIdentifier]
+        };
 
-        updatedOrderForm[name].value = evt.target.value;
-        updatedOrderForm[name].valid = this.isInputValid(updatedOrderForm[name].value, updatedOrderForm[name].validation);
-        updatedOrderForm[name].touched = true;
-
-        console.log('valid', updatedOrderForm[name].valid);
+        updatedFormElement.value = evt.target.value;
+        updatedFormElement.valid = this.isInputValid(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+        updatedOrderForm[inputIdentifier] = updatedFormElement;
 
         let formIsValid = true;
-        for (let inputId in updatedOrderForm) {
-            formIsValid = updatedOrderForm[inputId].valid && formIsValid;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
-
-        this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
+        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
     isInputValid = (value, rules) => {     
@@ -153,36 +224,94 @@ export class ContactData extends Component {
         const formEls = [];
         for (let key in this.state.orderForm) {
             formEls.push({
+                group: this.state.orderForm[key].group,
                 id: key,
                 config: this.state.orderForm[key]
             }); 
         }
 
+        const formGroups = formEls.reduce(function (acc, obj) {
+            var key = obj['group'];
+            if (!acc[key]) {
+              acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+
+        console.log( formGroups );
+
         let form = (
             <form className={styles.contactForm} onSubmit={this.orderHandler}>
                 <div className={styles.formRow}>
-                    <Input elementtype="input" value={formEls[0].config.value} invalid={!formEls[0].config.valid} touched={formEls[0].config.touched} type="text" name="fname" label="First Name" onChange={this.inputChangeHandler} required />
-                    <Input elementtype="input" value={formEls[1].config.value} invalid={!formEls[1].config.valid} touched={formEls[1].config.touched} type="text" name="lname" label="Last Name" onChange={this.inputChangeHandler} required />
+                    <Input elementtype={formEls[0].config.elementType} 
+                            elementConfig={formEls[0].config.elementConfig} 
+                            value={formEls[0].config.value} 
+                            invalid={!formEls[0].config.valid} 
+                            touched={formEls[0].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[0].id)} required />
+                    <Input elementtype={formEls[1].config.elementType} 
+                            elementConfig={formEls[1].config.elementConfig} 
+                            value={formEls[1].config.value} 
+                            invalid={!formEls[1].config.valid} 
+                            touched={formEls[1].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[1].id)} required />
                 </div>
                 <div className={styles.formRow}>
-                    <Input elementtype="input" value={formEls[2].config.value} invalid={!formEls[2].config.valid} touched={formEls[2].config.touched} type="text" name="email" label="Email" onChange={this.inputChangeHandler} required />
-                    <Input elementtype="input" value={formEls[3].config.value} invalid={!formEls[3].config.valid} touched={formEls[3].config.touched} type="text" name="phone" label="Phone" onChange={this.inputChangeHandler} />
+                    <Input elementtype={formEls[2].config.elementType} 
+                            elementConfig={formEls[2].config.elementConfig} 
+                            value={formEls[2].config.value} 
+                            invalid={!formEls[2].config.valid} 
+                            touched={formEls[2].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[2].id)} required />
+                    <Input elementtype={formEls[3].config.elementType} 
+                            elementConfig={formEls[3].config.elementConfig} 
+                            value={formEls[3].config.value} 
+                            invalid={!formEls[3].config.valid} 
+                            touched={formEls[3].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[3].id)} />
                 </div>
                 <div className={styles.formRow}>
-                    <Input elementtype="input" value={formEls[4].config.value} invalid={!formEls[4].config.valid} touched={formEls[4].config.touched} type="text" name="street" label="Street" onChange={this.inputChangeHandler} required />
-                    <Input elementtype="input" value={formEls[5].config.value} invalid={!formEls[5].config.valid} touched={formEls[5].config.touched} type="text" name="street2" label="Street2" onChange={this.inputChangeHandler} />
+                    <Input elementtype={formEls[4].config.elementType} 
+                            elementConfig={formEls[4].config.elementConfig} 
+                            value={formEls[4].config.value} 
+                            invalid={!formEls[4].config.valid} 
+                            touched={formEls[4].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[4].id)} required />
+                    <Input elementtype={formEls[5].config.elementType} 
+                            elementConfig={formEls[5].config.elementConfig} 
+                            value={formEls[5].config.value} 
+                            invalid={!formEls[5].config.valid} 
+                            touched={formEls[5].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[5].id)} />
                 </div>
                 <div className={styles.formRow}>
-                    <Input elementtype="input" value={formEls[6].config.value} invalid={!formEls[6].config.valid} touched={formEls[6].config.touched} type="text" name="city" label="City" onChange={this.inputChangeHandler} required />
-                    <Input elementtype="input" value={formEls[7].config.value} invalid={!formEls[7].config.valid} touched={formEls[7].config.touched} type="text" name="state" label="State" onChange={this.inputChangeHandler} required />
-                    <Input elementtype="input" value={formEls[8].config.value} invalid={!formEls[8].config.valid} touched={formEls[8].config.touched} type="text" name="zip" label="Zip" onChange={this.inputChangeHandler} required />
+                    <Input elementtype={formEls[6].config.elementType} 
+                            elementConfig={formEls[6].config.elementConfig} 
+                            value={formEls[6].config.value} 
+                            invalid={!formEls[6].config.valid} 
+                            touched={formEls[6].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[6].id)} required />
+                    <Input elementtype={formEls[7].config.elementType} 
+                            elementConfig={formEls[7].config.elementConfig} 
+                            value={formEls[7].config.value} 
+                            invalid={!formEls[7].config.valid} 
+                            touched={formEls[7].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[7].id)} required />
+                    <Input elementtype={formEls[8].config.elementType} 
+                            elementConfig={formEls[8].config.elementConfig} 
+                            value={formEls[8].config.value} 
+                            invalid={!formEls[8].config.valid} 
+                            touched={formEls[8].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[8].id)} required />
                 </div>
                 <div className={styles.formRow}>
-                    <Input elementtype="select" value={formEls[9].config.value} invalid={!formEls[9].config.valid} touched={formEls[9].config.touched} name="deliveryMethod" label="Delivery Method" onChange={this.inputChangeHandler}>
-                        <option value="slowest">Slowest</option>
-                        <option value="fastest">Fastest</option>
-                        <option value="expensive">Expensive</option> 
-                    </Input>
+                    <Input elementtype={formEls[9].config.elementType} 
+                            elementConfig={formEls[9].config.elementConfig} 
+                            value={formEls[9].config.value} 
+                            invalid={!formEls[9].config.valid} 
+                            touched={formEls[9].config.touched} 
+                            changed={(event) => this.inputChangedHandler(event, formEls[9].id)} />
                 </div>
                 <div className={styles.formRow}>
                     <div className={[styles.formControl,styles.btnControl].join(' ')}>

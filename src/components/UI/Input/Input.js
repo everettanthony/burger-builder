@@ -11,25 +11,44 @@ const Input = (props) => {
 
     switch (props.elementtype) {
         case ('input'):
-            inputEl = <input value={props.value} {...props} className={inputStyles.join(' ')} />;
+            inputEl = <input 
+                className={inputStyles.join(' ')} 
+                {...props.elementConfig} 
+                value={props.value} 
+                onChange={props.changed} />;
             break;
         case ('textarea'):
-            inputEl = <textarea value={props.value} {...props} className={inputStyles.join(' ')} />;
+            inputEl = <textarea 
+                className={inputStyles.join(' ')}
+                {...props.elementConfig} 
+                value={props.value} 
+                onChange={props.changed} />;
             break;
         case ('select'):
             inputEl = (
-                <select value={props.value} {...props} className={inputStyles.join(' ')}>
-                    {props.children}
+                <select
+                    className={inputStyles.join(' ')}
+                    value={props.value}
+                    onChange={props.changed}>
+                    {props.elementConfig.options.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.displayValue}
+                        </option>
+                    ))}
                 </select>
             );
             break;
         default:
-            inputEl = <input value={props.value} {...props} className={inputStyles.join(' ')} />;
+            inputEl = <input 
+                value={props.value} 
+                {...props.elementConfig}
+                className={inputStyles.join(' ')}
+                onChange={props.changed} />;
     }
 
     return (
         <div className={styles.formControl}>
-            <label>{props.label}</label>
+            <label>{props.elementConfig.label}</label>
             {inputEl}
         </div>
     );
